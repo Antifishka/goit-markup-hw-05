@@ -137,17 +137,40 @@ h1,h2,h3,p {
 }
 
 .current::after{
+  content: '';
+
   position: absolute;
   bottom: 0;
   left: 0;
 
-  content: '';
   display: block;
   width: 100%;
   height: 4px;
 
   background-color: var(--accent-color);
   border-radius: 2px;
+}
+
+.ancurrent::after {
+  content: '';
+
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  display: block;
+  width: 100%;
+  height: 4px;
+
+  background-color: var(--accent-color);
+  border-radius: 2px;
+
+  transform: scaleX(0);
+  transition: transform var(--animation);
+}
+
+.ancurrent:hover::after {
+  transform: scaleX(1);
 }
 
 .contacts-list{
@@ -220,6 +243,19 @@ h1,h2,h3,p {
   text-align: center;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+
+  animation: fade-top-to-bottom 2s;
+}
+
+@keyframes fade-top-to-bottom {
+  from{
+    transform: translateY(-250px);
+    opacity: 0;
+  }
+  to{
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .modal-btn {
@@ -249,9 +285,10 @@ h1,h2,h3,p {
   position: fixed;
   top: 0;
   left: 0;
-
   width: 100%;
   height: 100%;
+  z-index: 100;
+
   background-color: rgba(0, 0, 0, 0.2);
 
   opacity: 1;
@@ -500,15 +537,18 @@ justify-content: space-between;
   color: var(--icons-color);
   border: 1px solid var(--icons-color);
   border-radius: 4px;
-
+  
+  transform: scale(1);
   transition: color var(--animation),
-  border var(--animation);
+              border var(--animation),
+              tranform var(--animation);
 }
 
 .client-link:hover,
 .client-link:focus{
   color: var(--accent-color);
   border: 1px solid var(--accent-color);
+  transform: scale(1.2);
 }
 
 .client-icon{
@@ -688,9 +728,7 @@ justify-content: space-between;
 }
 
 .project-link{
-  position: relative;
   display: block;
-  overflow: hidden;
 
   transition: box-shadow var(--animation);
 }
@@ -703,25 +741,21 @@ justify-content: space-between;
 }
 
 .project-overlay{
+  position: relative;
+  width: 100%;
+  height: 294px;
+  overflow: hidden;
+}
+
+.project-overlay-text{
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 294px;
+  height: 100%;
   padding: 63px 24px;
-  overflow: hidden;
-
+  
   background-color: rgba(33, 150, 243, 0.9);
-
-  transform: translateY(100%);
-  transition: transform var(--animation);
-}
-
-.project-link:hover .project-overlay{
-  transform: translateY(0);
-}
-
-.project-overlay-text{
   color: var(--white-text-color);
   font-weight: 400;
   font-size: 18px;
@@ -729,11 +763,14 @@ justify-content: space-between;
   letter-spacing: 0.03em;
 
   opacity: 0;
-  transition: opacity var(--animation) 250ms;
+  transform: translateY(100%);
+  transition: opacity var(--animation),
+              transform var(--animation);
 }
 
 .project-link:hover .project-overlay-text{
   opacity: 1;
+  transform: translateY(0);
 }
 
 .project-description{
